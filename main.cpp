@@ -2,13 +2,14 @@
 #include <fileapi.h>
 #include <aclapi.h>
 #include <strsafe.h>
+#include "accessMask.h"
 
 using namespace std;
 
 int main(){
 
 //Create handle for object access
- string path = "E:\\Folder";
+ string path = "E:\\file.txt";
  LPCSTR filePath = &path[0];
  HANDLE hFile = CreateFileA(filePath,GENERIC_READ|GENERIC_WRITE,0,0,OPEN_ALWAYS,0,0);
 
@@ -39,13 +40,12 @@ for(int i=0;i<pacl->AceCount;i++){
     if(!LookupAccountSidW(NULL,&pace->SidStart,accountName,cchName,referencedDomainName,cchReferencedDomainName,&peUse)){
         cout<<"SID lookup failed"<<endl;
     }
-    
+
     wcout<<accountName<<endl;
     wcout<<referencedDomainName<<endl;
-
+    listAccess(pace->Mask);
     }
-}
-
-
+   
+    
 
 }
